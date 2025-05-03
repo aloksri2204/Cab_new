@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>AkhileshCab - Page Not Found</title>
+  <!-- Clean redirect to homepage, no query parameters -->
+  <meta http-equiv="refresh" content="0;url=https://aloksri2204.github.io/Cab_Akhilesh/index.html">
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
@@ -26,19 +28,11 @@
     }
     .btn:hover { background: #1d3557; }
   </style>
-  <script>
-    // Direct redirect without any parameters - simplest possible solution
-    window.onload = function() {
-      document.getElementById('homeLink').onclick = function(e) {
-        e.preventDefault();
-        window.location.href = 'https://aloksri2204.github.io/Cab_Akhilesh/';
-      };
-    };
-  </script>
 </head>
 <body>
   <h1>Page Not Found</h1>
   <p>Sorry, the page you are looking for might have been removed or is temporarily unavailable.</p>
-  <a id="homeLink" href="#" class="btn">Go to Homepage</a>
+  <p>You will be redirected to the homepage momentarily...</p>
+  <a href="https://aloksri2204.github.io/Cab_Akhilesh/index.html" class="btn">Go to Homepage</a>
 </body>
 </html>

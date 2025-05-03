@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (Fix URL Issues)
 
 on:
   push:
@@ -25,18 +25,62 @@ jobs:
         
       - name: Prepare for GitHub Pages
         run: |
-          # Copy 404.html to the dist directory
+          # Copy special files for GitHub Pages
           cp client/public/404.html dist/
+          cp client/public/index-ghpages.html dist/
           
           # Create .nojekyll file to prevent Jekyll processing
           touch dist/.nojekyll
           
-          # Fix asset paths if needed (replace "/assets/" with "./assets/")
+          # Fix SPA for GitHub Pages - this is the key part
+          cat > dist/hash-router.js << 'EOF'
+          // This script prevents the ~and~ issue in URLs
+          document.addEventListener('DOMContentLoaded', function() {
+            // Intercept all link clicks
+            document.body.addEventListener('click', function(e) {
+              // Find closest parent anchor tag
+              let target = e.target;
+              while (target && target.tagName !== 'A') {
+                target = target.parentElement;
+                if (!target) return;
+              }
+              
+              // Only process internal links
+              if (target && target.hostname === window.location.hostname) {
+                e.preventDefault();
+                
+                // Get the href attribute
+                const href = target.getAttribute('href');
+                
+                // If it's an anchor/hash link like #services
+                if (href.startsWith('#')) {
+                  const element = document.getElementById(href.substring(1));
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                } else {
+                  // For other internal links, use direct page navigation without hash
+                  window.location.href = href;
+                }
+              }
+            });
+          });
+          EOF
+          
+          # Inject the router script into index.html
+          sed -i -e '/<\/head>/i <script src="./hash-router.js"></script>' dist/index.html
+          
+          # Fix asset paths (replace "/assets/" with "./assets/")
           if [ -d "dist/assets" ]; then
             find dist -type f -name "*.html" -exec sed -i 's|="/assets/|="./assets/|g' {} \;
             find dist -type f -name "*.js" -exec sed -i 's|="/assets/|="./assets/|g' {} \;
             find dist -type f -name "*.css" -exec sed -i 's|=/assets/|=./assets/|g' {} \;
           fi
+          
+          # Make sure index.html is clean with no router parameters
+          cp dist/index.html dist/index.html.bak
+          grep -v "wouter" dist/index.html.bak > dist/index.html || cp dist/index.html.bak dist/index.html
+          rm dist/index.html.bak
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
