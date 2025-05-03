@@ -175,8 +175,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-medium text-lg">Phone</h4>
-                  <a href="tel:+1234567890" className="text-gray-300 hover:text-primary transition-colors">
-                    (123) 456-7890
+                  <a href="tel:+919876543210" className="text-gray-300 hover:text-primary transition-colors">
+                    +91 98765 43210
                   </a>
                 </div>
               </div>
@@ -200,8 +200,8 @@ export default function Contact() {
                 <div>
                   <h4 className="font-medium text-lg">Base Location</h4>
                   <address className="text-gray-300 not-italic">
-                    123 Transit Avenue<br />
-                    Anytown, ST 12345
+                    Near Godowlia Crossing<br />
+                    Dashashwamedh, Varanasi - 221001
                   </address>
                 </div>
               </div>

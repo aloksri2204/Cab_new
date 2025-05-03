@@ -11,23 +11,27 @@ import {
 const faqs = [
   {
     question: "How far in advance should I book?",
-    answer: "We recommend booking at least 24 hours in advance to ensure availability, especially for airport transfers or hourly service. For same-day service, please call us directly to check availability."
+    answer: "We recommend booking at least 24 hours in advance to ensure availability, especially for airport transfers or ghats and temple tours. For same-day service, please call us directly to check availability."
   },
   {
     question: "What payment methods do you accept?",
-    answer: "We accept cash, all major credit cards, and mobile payment options including Apple Pay and Google Pay. Payment is collected at the end of your ride."
+    answer: "We accept cash, all major credit cards, UPI payments (PhonePe, Google Pay, Paytm), and net banking. Payment is collected at the end of your ride."
+  },
+  {
+    question: "Do you offer tours of the Varanasi ghats and temples?",
+    answer: "Yes, we specialize in guided tours of Varanasi's famous ghats and temples. Our drivers are knowledgeable about the cultural and historical significance of each location and can provide insights during your journey."
+  },
+  {
+    question: "Can you arrange transportation for day trips to nearby attractions?",
+    answer: "Absolutely! We offer transportation to nearby attractions such as Sarnath (Buddhist pilgrimage site), Ramnagar Fort, and other locations around Varanasi. Just mention your destination when booking."
   },
   {
     question: "What if my plans change after booking?",
     answer: "We understand plans change. You can modify or cancel your booking up to 2 hours before the scheduled pickup without any charge. For changes less than 2 hours before pickup, please call us directly."
   },
   {
-    question: "Do you provide child seats?",
-    answer: "Yes, we can provide child seats upon request. Please mention this in the special instructions when booking or call us directly to arrange. There is a small additional fee of $5 per child seat."
-  },
-  {
-    question: "Is your vehicle wheelchair accessible?",
-    answer: "Our current vehicle is not specially equipped for wheelchair access. However, we can assist with folding wheelchairs that can fit in the trunk. For fully accessible transportation needs, we can refer you to specialized services."
+    question: "Do you provide early morning pickups for Ganga Aarti or boat rides?",
+    answer: "Yes, we provide early morning pickups for sunrise boat rides and evening pickups for the famous Ganga Aarti ceremony at Dashashwamedh Ghat. Just specify your requirements when booking."
   }
 ];
 

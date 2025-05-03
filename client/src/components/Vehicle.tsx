@@ -1,19 +1,20 @@
 import { Car, Check, UserCircle } from "lucide-react";
 
 const vehicleDetails = [
-  { label: "Make & Model:", value: "Toyota Camry Hybrid" },
+  { label: "Make & Model:", value: "Toyota Innova Crysta" },
   { label: "Year:", value: "2022" },
-  { label: "Passenger:", value: "Up to 4 passengers" },
-  { label: "Luggage:", value: "Up to 3 medium suitcases" }
+  { label: "Passenger:", value: "Up to 6 passengers" },
+  { label: "Luggage:", value: "Up to 3 large suitcases" }
 ];
 
 const vehicleFeatures = [
   "Air Conditioning",
-  "Leather Seats",
+  "Comfortable Seats",
   "USB Charging",
   "Bottled Water",
   "Phone Mounts",
-  "Sanitized Interior"
+  "Sanitized Interior",
+  "Local Navigation System"
 ];
 
 export default function Vehicle() {
@@ -77,8 +78,10 @@ export default function Vehicle() {
                 Your Driver
               </h3>
               <p className="mb-3">
-                Professional driver with 10+ years of experience and perfect safety record. 
-                Licensed, background-checked, and committed to providing exceptional service.
+                Professional driver with 10+ years of experience and perfect safety record.
+                Fluent in Hindi and English, with extensive knowledge of Varanasi's 
+                ghats, temples, and tourist attractions. Licensed, background-checked, 
+                and committed to providing exceptional service.
               </p>
             </div>
           </div>

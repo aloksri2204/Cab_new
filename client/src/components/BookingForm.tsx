@@ -292,13 +292,13 @@ export default function BookingForm() {
           <h3 className="font-semibold text-xl mb-4 text-secondary">Need Immediate Pickup?</h3>
           <p className="text-muted-foreground mb-4">For immediate service or same-day bookings, please call us directly:</p>
           <a 
-            href="tel:+1234567890" 
+            href="tel:+919876543210" 
             className="inline-flex items-center text-lg font-medium text-accent hover:text-accent/90"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
               <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
             </svg>
-            (123) 456-7890
+            +91 98765 43210
           </a>
         </div>
       </div>

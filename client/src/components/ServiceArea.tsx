@@ -1,14 +1,23 @@
 import { useEffect, useRef } from "react";
 import { Check, MapPin, Info } from "lucide-react";
 
-// Coverage areas
+// Define Leaflet types to avoid TypeScript errors
+declare global {
+  interface Window {
+    L: any; // Leaflet global object
+  }
+}
+
+// Coverage areas in Varanasi
 const coverageAreas = [
-  "Downtown Core",
-  "All Suburbs",
-  "Airport & Transportation Hubs",
-  "Shopping Centers",
-  "Business Districts",
-  "Entertainment Venues"
+  "Varanasi Ghats Area",
+  "Banaras Hindu University",
+  "Sarnath",
+  "Dashashwamedh Ghat",
+  "Lal Bahadur Shastri Airport",
+  "Varanasi Cantt Railway Station",
+  "Kashi Vishwanath Temple Area",
+  "Assi Ghat & Lanka"
 ];
 
 export default function ServiceArea() {
@@ -18,24 +27,38 @@ export default function ServiceArea() {
     // Check if leaflet is available
     if (window.L && mapContainerRef.current) {
       try {
-        // Initialize the map
-        const map = window.L.map(mapContainerRef.current).setView([40.7128, -74.0060], 12);
+        // Initialize the map with Varanasi coordinates
+        // Varanasi coordinates: 25.3176, 83.0059
+        const map = window.L.map(mapContainerRef.current).setView([25.3176, 83.0059], 13);
         
         // Add tile layer (OpenStreetMap)
         window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
         
-        // Add a marker for the cab service location
-        const marker = window.L.marker([40.7128, -74.0060]).addTo(map);
-        marker.bindPopup("<b>SwiftCab Headquarters</b><br>123 Transit Avenue").openPopup();
+        // Add a marker for the cab service location (near Godowlia, a central location in Varanasi)
+        const marker = window.L.marker([25.3109, 83.0107]).addTo(map);
+        marker.bindPopup("<b>SwiftCab Headquarters</b><br>Near Godowlia, Varanasi").openPopup();
         
-        // Add a circle to show the service area (30 miles radius)
-        window.L.circle([40.7128, -74.0060], {
+        // Add markers for key locations in Varanasi
+        const dashashwamedh = window.L.marker([25.3065, 83.0156]).addTo(map);
+        dashashwamedh.bindPopup("<b>Dashashwamedh Ghat</b><br>Popular tourist spot");
+        
+        const kashi = window.L.marker([25.3109, 83.0107]).addTo(map);
+        kashi.bindPopup("<b>Kashi Vishwanath Temple</b><br>Sacred Hindu temple");
+        
+        const bhu = window.L.marker([25.2677, 82.9913]).addTo(map);
+        bhu.bindPopup("<b>Banaras Hindu University</b>");
+        
+        const sarnath = window.L.marker([25.3824, 83.0256]).addTo(map);
+        sarnath.bindPopup("<b>Sarnath</b><br>Buddhist pilgrimage site");
+        
+        // Add a circle to show the service area (15 km radius)
+        window.L.circle([25.3109, 83.0107], {
           color: '#FFCC00',
           fillColor: '#FFCC00',
           fillOpacity: 0.2,
-          radius: 48280 // 30 miles in meters
+          radius: 15000 // 15 km in meters
         }).addTo(map);
         
         return () => {

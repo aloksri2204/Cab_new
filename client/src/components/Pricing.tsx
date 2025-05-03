@@ -5,10 +5,10 @@ import { Check, Circle } from "lucide-react";
 const pricingPlans = [
   {
     title: "City Rides",
-    price: "$15",
+    price: "₹800",
     unit: "/ride",
     features: [
-      "Up to 10 km within city limits",
+      "Up to 10 km within Varanasi city limits",
       "No waiting charges for first 5 minutes",
       "Direct route to destination",
       "Comfortable air-conditioned ride"
@@ -16,24 +16,24 @@ const pricingPlans = [
     popular: false
   },
   {
-    title: "Hourly Service",
-    price: "$45",
-    unit: "/hour",
+    title: "Ghat & Temple Tour",
+    price: "₹2,500",
+    unit: "/4 hours",
     features: [
-      "Minimum 2-hour booking",
-      "Unlimited stops within service area",
+      "Visit main ghats and temples",
+      "Unlimited stops within Varanasi",
       "Wait time included",
-      "Perfect for shopping or appointments",
+      "Perfect for sightseeing",
       "Complimentary bottled water"
     ],
     popular: true
   },
   {
     title: "Airport Transfer",
-    price: "$60",
+    price: "₹1,200",
     unit: "/one-way",
     features: [
-      "Any location to/from the airport",
+      "Any location to/from Lal Bahadur Shastri Airport",
       "Flight monitoring",
       "30 minutes waiting time included",
       "Luggage assistance"
@@ -43,10 +43,10 @@ const pricingPlans = [
 ];
 
 const additionalCharges = [
-  "Extra distance: $1.50 per kilometer",
-  "Waiting time: $0.50 per minute",
-  "Late night (10 PM - 6 AM): +$5 surcharge",
-  "Additional stops: $5 per stop"
+  "Extra distance: ₹50 per kilometer",
+  "Waiting time: ₹25 per minute",
+  "Late night (10 PM - 6 AM): +₹300 surcharge",
+  "Additional stops: ₹150 per stop"
 ];
 
 export default function Pricing() {
