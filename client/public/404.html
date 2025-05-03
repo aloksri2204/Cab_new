@@ -4,22 +4,21 @@
   <meta charset="utf-8">
   <title>AkhileshCab - Redirecting</title>
   <script type="text/javascript">
-    // Single Page Apps for GitHub Pages
-    // MIT License
-    // https://github.com/rafgraph/spa-github-pages
-    var pathSegmentsToKeep = 1;
-
-    var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-      l.hash
-    );
+    // Simplified redirect script for GitHub Pages SPA
+    // This version avoids the "~and~" issue in URLs
+    
+    // Get the repository name from the URL (for GitHub Pages)
+    var repoName = location.pathname.split('/')[1];
+    var newUrl = location.protocol + '//' + location.hostname + 
+                (location.port ? ':' + location.port : '') + 
+                '/' + repoName;
+                
+    // Redirect to the home page
+    window.location.replace(newUrl);
   </script>
 </head>
 <body>
-  <h2>Redirecting...</h2>
+  <h2>Redirecting to homepage...</h2>
+  <p>If you are not redirected automatically, <a href="/">click here</a>.</p>
 </body>
 </html>

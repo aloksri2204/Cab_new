@@ -5,23 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>AkhileshCab - Varanasi's Reliable Cab Service</title>
     <meta name="description" content="Professional cab service in Varanasi offering city rides, temple & ghat tours, and airport transfers. Book your ride today!" />
-    <!-- Start Single Page Apps for GitHub Pages -->
+    <!-- GitHub Pages SPA Support -->
     <script type="text/javascript">
-      // Single Page Apps for GitHub Pages
-      // MIT License
-      // https://github.com/rafgraph/spa-github-pages
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
-          );
+      // Simple script to support SPA on GitHub Pages
+      // This avoids the ?/ and ~and~ issues in the URL
+      document.addEventListener('click', function(event) {
+        // Handle internal navigation cleanly
+        var target = event.target;
+        while (target && target.tagName !== 'A') {
+          target = target.parentNode;
         }
-      }(window.location))
+        
+        if (target && target.hostname === window.location.hostname) {
+          // Anchor links within the page
+          if (target.hash && target.pathname === window.location.pathname) {
+            event.preventDefault();
+            // Just update hash for same-page navigation
+            window.location.hash = target.hash;
+          }
+        }
+      });
     </script>
-    <!-- End Single Page Apps for GitHub Pages -->
+    <!-- End GitHub Pages SPA Support -->
   </head>
   <body>
     <div id="root"></div>
