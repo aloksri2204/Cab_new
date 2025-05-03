@@ -1,5 +1,4 @@
 #!/bin/bash
-# Script to run the simple-site version
-
+# This script runs the simplified Node.js version of the AkhileshCab website
 cd simple-site
-npm run dev
+npm start
