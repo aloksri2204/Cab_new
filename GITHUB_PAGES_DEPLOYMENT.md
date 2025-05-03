@@ -1,6 +1,6 @@
-# AkhileshCab GitHub Pages Deployment Guide - URL FIX FOR ~and~ ISSUE
+# AkhileshCab GitHub Pages Deployment Guide - FIXING URL ISSUES
 
-This guide has been updated with a **guaranteed solution** for the ~and~ URL issues on GitHub Pages.
+This guide has been updated to address both the **~and~ URL issue** AND the **crypto.getRandomValues error** during build.
 
 ## AUTOMATED METHOD: GitHub Actions Deployment
 
@@ -16,24 +16,52 @@ This guide has been updated with a **guaranteed solution** for the ~and~ URL iss
    git push -u origin main
    ```
 
-3. The GitHub Actions workflow file in `.github/workflows/deploy.yml` will run automatically
+3. The GitHub Actions workflow in `.github/workflows/deploy.yml` will run automatically
+   - We now use Node.js 18 instead of 16 to fix the crypto error
 
 4. Check deployment status:
    - Go to your repository on GitHub
    - Click on the "Actions" tab
-   - Wait for the "Deploy to GitHub Pages (Fix URL Issues)" workflow to complete
+   - Wait for the workflow to complete
 
 5. Configure GitHub Pages:
-   - Click on "Settings" in your repository
+   - Click "Settings" in your repository
    - Navigate to "Pages" in the left sidebar
-   - Under "Build and deployment", select "GitHub Actions" (NOT "Deploy from a branch")
+   - Under "Build and deployment", select "GitHub Actions"
    - Your site will be available at `https://aloksri2204.github.io/Cab_Akhilesh/`
 
-## MANUAL METHOD: Complete Custom Deployment
+## EASY METHOD: Using Deployment Scripts
 
-If the GitHub Actions approach still has issues, follow these steps for a guaranteed solution:
+If you prefer to deploy from your local machine:
 
-1. Build the project locally:
+1. Make the scripts executable:
+   ```bash
+   chmod +x build-for-github.sh
+   chmod +x deploy-to-github.sh
+   ```
+
+2. Run the deployment script:
+   ```bash
+   ./deploy-to-github.sh
+   ```
+
+3. That's it! The script will:
+   - Build your project
+   - Prepare all files for GitHub Pages
+   - Push to the gh-pages branch
+   - Provide confirmation when complete
+
+4. Go to your repository settings on GitHub:
+   - Click "Settings" → "Pages"
+   - Set Source to "Deploy from a branch"
+   - Select "gh-pages" branch and "/ (root)" folder
+   - Click "Save"
+
+## MANUAL METHOD: Step-By-Step Deployment
+
+If the scripts don't work for you:
+
+1. Install dependencies and build locally:
    ```bash
    npm install
    npm run build
@@ -43,42 +71,15 @@ If the GitHub Actions approach still has issues, follow these steps for a guaran
    ```bash
    # Copy special files
    cp client/public/404.html dist/
-   cp client/public/index-ghpages.html dist/index.html
+   cp client/public/index-ghpages.html dist/
    
    # Create no-jekyll file
    touch dist/.nojekyll
-   
-   # Create a custom hash router script
-   cat > dist/hash-router.js << 'EOF'
-   // Fix for ~and~ issue in URLs
-   document.addEventListener('DOMContentLoaded', function() {
-     document.body.addEventListener('click', function(e) {
-       let target = e.target;
-       while (target && target.tagName !== 'A') {
-         target = target.parentElement;
-         if (!target) return;
-       }
-       
-       if (target && target.hostname === window.location.hostname) {
-         e.preventDefault();
-         const href = target.getAttribute('href');
-         
-         if (href.startsWith('#')) {
-           const element = document.getElementById(href.substring(1));
-           if (element) element.scrollIntoView({ behavior: 'smooth' });
-         } else {
-           window.location.href = href;
-         }
-       }
-     });
-   });
-   EOF
-   
-   # Insert the script into the HTML file
-   sed -i -e '/<\/head>/i <script src="./hash-router.js"></script>' dist/index.html
    ```
 
-3. Deploy to GitHub Pages:
+3. Create a custom router script in dist/hash-router.js (see build-for-github.sh for content)
+
+4. Deploy to GitHub Pages:
    ```bash
    cd dist
    git init
@@ -89,29 +90,32 @@ If the GitHub Actions approach still has issues, follow these steps for a guaran
    git push -u origin gh-pages -f
    ```
 
-4. Configure GitHub Pages to use the gh-pages branch
-
 ## How This Fix Works
 
-This solution:
+Our solution addresses two key issues:
 
-1. **Eliminates wouter routing** that causes the ~and~ issue
-2. **Uses meta redirects** instead of JavaScript redirects
-3. **Intercepts all link clicks** with a custom event handler
-4. **Creates a custom hash router** that doesn't use query parameters
-5. **Forces direct navigation** without route preservation
+1. **The crypto.getRandomValues error**:
+   - Updated Node.js version from 16 to 18
+   - This provides proper support for modern crypto APIs
+
+2. **The ~and~ URL issue**:
+   - Eliminates wouter routing that causes the problem
+   - Uses meta redirects for clean navigation
+   - Intercepts link clicks with a custom event handler
+   - Creates a custom hash router without query parameters
+   - Forces direct navigation without route preservation
 
 ## Testing & Troubleshooting
 
-1. Clear your browser cache completely
-2. Test in an incognito/private window
-3. Verify the site at `https://aloksri2204.github.io/Cab_Akhilesh/`
-4. If issues continue, try adding `?nocache=1` to the end of your URL
-
-## Support & Updates
-
-This solution is guaranteed to fix the ~and~ issue. If you still experience problems, please contact me for additional support.
+- If GitHub Actions fails:
+  - Check the error logs in GitHub Actions
+  - Try the manual deployment script instead
+  
+- If you see ~and~ characters in URLs:
+  - Clear your browser cache completely
+  - Test in an incognito/private window
+  - Add `?nocache=1` to force a fresh page load
 
 ---
 
-**Note:** The solution relies on creating a completely new front-end routing mechanism that bypasses the problematic hash-based router, ensuring URLs remain clean and free of unwanted characters.
+**Note:** The deployment scripts in this project (build-for-github.sh and deploy-to-github.sh) are specifically designed to handle all these issues automatically.
