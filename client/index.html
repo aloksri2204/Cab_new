@@ -5,28 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>AkhileshCab - Varanasi's Reliable Cab Service</title>
     <meta name="description" content="Professional cab service in Varanasi offering city rides, temple & ghat tours, and airport transfers. Book your ride today!" />
-    <!-- GitHub Pages SPA Support -->
+    <!-- Fixed GitHub Pages Navigation -->
     <script type="text/javascript">
-      // Simple script to support SPA on GitHub Pages
-      // This avoids the ?/ and ~and~ issues in the URL
-      document.addEventListener('click', function(event) {
-        // Handle internal navigation cleanly
-        var target = event.target;
-        while (target && target.tagName !== 'A') {
-          target = target.parentNode;
-        }
-        
-        if (target && target.hostname === window.location.hostname) {
-          // Anchor links within the page
-          if (target.hash && target.pathname === window.location.pathname) {
-            event.preventDefault();
-            // Just update hash for same-page navigation
-            window.location.hash = target.hash;
+      // This script ensures all navigation works correctly on GitHub Pages
+      // and prevents the ~and~ characters issue
+      window.addEventListener('DOMContentLoaded', function() {
+        // Direct fix for anchor links on the same page
+        document.addEventListener('click', function(event) {
+          var target = event.target;
+          // Traverse up to find the closest anchor element
+          while (target && target.tagName !== 'A') {
+            target = target.parentNode;
+            if (!target) return; // No anchor found in parent chain
           }
-        }
+          
+          // Only handle links on same domain
+          if (target && target.hostname === window.location.hostname) {
+            // Check if it's a hash link (e.g., "#services", "#booking")
+            if (target.getAttribute('href').startsWith('#')) {
+              event.preventDefault();
+              // Smooth scroll to element
+              var elementId = target.getAttribute('href').substring(1);
+              var element = document.getElementById(elementId);
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+          }
+        });
       });
     </script>
-    <!-- End GitHub Pages SPA Support -->
+    <!-- End Fixed GitHub Pages Navigation -->
   </head>
   <body>
     <div id="root"></div>
