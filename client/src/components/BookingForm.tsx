@@ -155,7 +155,7 @@ export default function BookingForm() {
                             </FormControl>
                             <SelectContent>
                               <SelectItem value="city-ride">City Ride</SelectItem>
-                              <SelectItem value="hourly">Hourly Service</SelectItem>
+                              <SelectItem value="ghat-temple-tour">Ghat & Temple Tour</SelectItem>
                               <SelectItem value="airport">Airport Transfer</SelectItem>
                             </SelectContent>
                           </Select>

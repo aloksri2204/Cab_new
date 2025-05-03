@@ -10,7 +10,7 @@ export default function Hero() {
             Your <span className="text-primary">Reliable Ride</span>, Just a Click Away
           </h1>
           <p className="text-lg md:text-xl mb-8 text-white/90">
-            Professional cab service with fixed rates and comfortable rides, serving the entire city area 24/7.
+            Professional cab service with fixed rates and comfortable rides, serving Varanasi's ghats, temples, and airport 24/7.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Button 
