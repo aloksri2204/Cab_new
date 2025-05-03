@@ -39,7 +39,7 @@ export default function Navbar({ isFixed }: NavbarProps) {
         <div className="flex items-center">
           <CarTaxiFront className="text-primary h-7 w-7 mr-2" />
           <Link href="#home" className="font-bold text-2xl text-secondary">
-            Swift<span className="text-primary">Cab</span>
+            Akhilesh<span className="text-primary">Cab</span>
           </Link>
         </div>
 

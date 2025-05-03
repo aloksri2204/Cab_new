@@ -29,7 +29,7 @@ export default function Features() {
       <div className="container">
         <div className="text-center mb-12">
           <h2 className="font-bold text-3xl md:text-4xl text-secondary">
-            Why Choose <span className="text-primary">SwiftCab</span>?
+            Why Choose <span className="text-primary">AkhileshCab</span>?
           </h2>
           <div className="h-1 w-24 bg-primary mx-auto mt-4 mb-6"></div>
           <p className="text-lg max-w-2xl mx-auto text-muted-foreground">

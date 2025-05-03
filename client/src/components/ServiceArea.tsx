@@ -38,7 +38,7 @@ export default function ServiceArea() {
         
         // Add a marker for the cab service location (near Godowlia, a central location in Varanasi)
         const marker = window.L.marker([25.3109, 83.0107]).addTo(map);
-        marker.bindPopup("<b>SwiftCab Headquarters</b><br>Near Godowlia, Varanasi").openPopup();
+        marker.bindPopup("<b>AkhileshCab Headquarters</b><br>Near Godowlia, Varanasi").openPopup();
         
         // Add markers for key locations in Varanasi
         const dashashwamedh = window.L.marker([25.3065, 83.0156]).addTo(map);

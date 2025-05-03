@@ -3,23 +3,23 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    text: "\"The driver was punctual, professional, and the car was immaculate. Best cab service I've used in years. Highly recommended!\"",
-    name: "Michael Roberts",
-    role: "Regular customer",
+    text: "\"The driver was punctual, professional, and had excellent knowledge about Varanasi's temples and ghats. AkhileshCab provided the best tour guide experience I've had!\"",
+    name: "Rajat Sharma",
+    role: "Tourist from Delhi",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=48&h=48&q=80",
     rating: 5
   },
   {
-    text: "\"I use SwiftCab for my weekly airport trips. Always on time, and the consistent driver means I get personalized service every time.\"",
-    name: "Sarah Johnson",
-    role: "Business traveler",
+    text: "\"I use AkhileshCab for my weekly trips to Lal Bahadur Shastri Airport. Always on time, and the driver knows all the shortcuts to avoid Varanasi's busy streets.\"",
+    name: "Priya Patel",
+    role: "Local business owner",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=48&h=48&q=80",
     rating: 4.5
   },
   {
-    text: "\"Booked the hourly service for a day of appointments. The driver was courteous, the car comfortable, and the fixed pricing meant no surprises.\"",
-    name: "David Chen",
-    role: "New customer",
+    text: "\"Booked the Ghat & Temple Tour package for our family visit to Varanasi. The driver was excellent, explained the history of each place, and knew the best spots for evening Ganga Aarti.\"",
+    name: "Vikram Mehta",
+    role: "Family visitor",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=48&h=48&q=80",
     rating: 5
   }

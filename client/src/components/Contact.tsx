@@ -187,8 +187,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-medium text-lg">Email</h4>
-                  <a href="mailto:info@swiftcab.com" className="text-gray-300 hover:text-primary transition-colors">
-                    info@swiftcab.com
+                  <a href="mailto:info@akhileshcab.com" className="text-gray-300 hover:text-primary transition-colors">
+                    info@akhileshcab.com
                   </a>
                 </div>
               </div>
