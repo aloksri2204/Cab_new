@@ -1,83 +1,70 @@
-# AkhileshCab Website
+# AkhileshCab - Varanasi Cab Service
 
-A responsive website for a local cab service in Varanasi, India.
+This is a static website for AkhileshCab, a cab service operating in Varanasi, India. The website is built using pure HTML, CSS, and JavaScript for easy hosting on GitHub Pages or any static site hosting service.
 
-## Project Overview
+## Project Structure
 
-This is a simplified version of the AkhileshCab website using Node.js, Express, HTML, CSS, and JavaScript. The website provides information about cab services in Varanasi, India, including booking options, pricing, and contact details.
+```
+akhileshcab/
+├── index.html                 # Main HTML file
+├── css/                       # CSS styles
+│   └── styles.css             # Main stylesheet
+├── js/                        # JavaScript files
+│   └── script.js              # Main JavaScript file
+├── images/                    # Image assets
+│   ├── car-placeholder.svg    # Placeholder for car image
+│   └── map-placeholder.svg    # Placeholder for map
+└── CNAME                      # Custom domain configuration
+```
 
 ## Features
 
-- Responsive design for all device sizes
-- Online booking form
-- Service area map
-- Pricing information
-- Vehicle details
-- Contact form
+- Responsive design for mobile, tablet, and desktop
+- Easy booking form that sends emails
+- Service pricing information
 - About section
+- Vehicle information
+- Service area map
+- Contact form
 
-## Local Development
+## How to View Locally
 
-1. Install dependencies:
-   ```bash
-   cd simple-site
-   npm install
-   ```
-
-2. Start the development server:
-   ```bash
-   cd simple-site
-   npm run dev
-   ```
-   
-   Alternatively, you can use the provided convenience script from the root directory:
-   ```bash
-   ./run-simple-site.sh
-   ```
-
-3. Visit http://localhost:3000 in your browser
-
-## File Structure
+Simply open the `index.html` file in your web browser:
 
 ```
-simple-site/
-├── public/             # Static assets
-│   ├── css/            # CSS stylesheets
-│   ├── js/             # JavaScript files
-│   ├── images/         # Image assets
-│   └── index.html      # Main HTML file
-└── server/
-    └── server.js       # Express server
+# Windows
+start index.html
+
+# macOS
+open index.html
+
+# Linux
+xdg-open index.html
 ```
 
 ## Deployment
 
-For deployment instructions, see [DEPLOY_TO_GITHUB_PAGES.md](simple-site/DEPLOY_TO_GITHUB_PAGES.md).
+This site is designed to be deployed to GitHub Pages:
 
-## Technologies Used
+1. Push this repository to GitHub
+2. Go to Settings > Pages
+3. Set the source to the branch containing these files
+4. The site will be published at your GitHub Pages URL
 
-- HTML5
-- CSS3
-- JavaScript
-- Node.js
-- Express
+## Custom Domain
 
-## Starting the Application
+To use a custom domain:
 
-The application can be started in several ways:
+1. Ensure your CNAME file contains your domain name
+2. Add the following DNS records at your domain registrar:
+   - A records pointing to GitHub Pages IP addresses
+   - CNAME record for 'www' pointing to your GitHub Pages URL
 
-1. Using the start.js script:
-   ```bash
-   node start.js
-   ```
+## Credits
 
-2. From the simple-site directory:
-   ```bash
-   cd simple-site
-   npm start
-   ```
+- All content is fictional and created for demonstration purposes
+- SVG placeholders are generated to represent actual images
 
-3. Using the run-simple-site.sh script:
-   ```bash
-   ./run-simple-site.sh
-   ```
+## License
+
+This project is available for use under the MIT License.

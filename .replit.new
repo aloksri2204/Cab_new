@@ -1,40 +1,36 @@
 modules = ["bash", "web", "nodejs-20", "python-3.11"]
-run = "npm run dev"
+run = "./static-serve.sh"
 hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
 channel = "stable-24_05"
 
 [deployment]
-deploymentTarget = "autoscale"
-run = ["npm", "run", "start"]
-build = ["npm", "run", "build"]
+deploymentTarget = "static"
+publicDir = "."
+build = ["./deploy.sh"]
 
 [[ports]]
-localPort = 3000
-externalPort = 3000
-
-[[ports]]
-localPort = 5000
+localPort = 8080
 externalPort = 80
 
 [workflows]
-runButton = "Project"
+runButton = "Serve Static Site"
 
 [[workflows.workflow]]
-name = "Project"
+name = "Serve Static Site"
 mode = "parallel"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Start application"
+args = "Static Server"
 
 [[workflows.workflow]]
-name = "Start application"
+name = "Static Server"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run dev"
-waitForPort = 5000
+args = "./static-serve.sh"
+waitForPort = 8080
