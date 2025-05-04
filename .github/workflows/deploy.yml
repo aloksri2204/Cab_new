@@ -5,59 +5,78 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Create build directory
+        run: mkdir -p build
+        
+      - name: Copy website files
+        run: |
+          cp index.html build/
+          cp -r css build/
+          cp -r images build/
+          mkdir -p build/js
+          cp js/script.js build/js/
+          
+          # Copy config.example.js as reference
+          if [ -f "js/config.example.js" ]; then
+            cp js/config.example.js build/js/
+          fi
+          
+          # Copy README and documentation
+          if [ -f "README.md" ]; then
+            cp README.md build/
+          fi
+      
+      - name: Create config.js with secrets
+        run: |
+          echo "// Configuration file for AkhileshCab website" > build/js/config.js
+          echo "// Generated during deployment - $(date)" >> build/js/config.js
+          echo "const CONFIG = {" >> build/js/config.js
+          echo "  GOOGLE_MAPS_API_KEY: \"${{ secrets.GOOGLE_MAPS_API_KEY }}\"," >> build/js/config.js
+          echo "  WEBSITE_VERSION: \"1.0.0\"" >> build/js/config.js
+          echo "};" >> build/js/config.js
+      
+      - name: Copy CNAME if exists
+        run: |
+          if [ -f "CNAME" ]; then
+            cp CNAME build/
+          fi
+          
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./build
+
+  # Deployment job
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    needs: build
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      
-      - name: Create dist directory
-        run: mkdir -p dist
-      
-      - name: Copy files to dist
-        run: |
-          cp index.html dist/
-          cp -r css dist/
-          cp -r images dist/
-          mkdir -p dist/js
-          cp js/script.js dist/js/
-      
-      - name: Create config.js with secrets
-        run: |
-          echo "// Configuration file for AkhileshCab website" > dist/js/config.js
-          echo "// Generated during deployment - $(date)" >> dist/js/config.js
-          echo "const CONFIG = {" >> dist/js/config.js
-          echo "  GOOGLE_MAPS_API_KEY: \"${{ secrets.GOOGLE_MAPS_API_KEY }}\"," >> dist/js/config.js
-          echo "  WEBSITE_VERSION: \"1.0.0\"" >> dist/js/config.js
-          echo "};" >> dist/js/config.js
-      
-      - name: Copy CNAME if exists
-        run: |
-          if [ -f "CNAME" ]; then
-            cp CNAME dist/
-          fi
-      
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: './dist'
-      
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v3
+        uses: actions/deploy-pages@v1
