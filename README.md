@@ -1,70 +1,62 @@
 # AkhileshCab - Varanasi Cab Service
 
-This is a static website for AkhileshCab, a cab service operating in Varanasi, India. The website is built using pure HTML, CSS, and JavaScript for easy hosting on GitHub Pages or any static site hosting service.
+A static website for a localized cab service in Varanasi, India, offering transportation solutions with a mobile-first digital experience for local commuters and tourists.
 
 ## Project Structure
 
+This is a simple static website with the following structure:
+
 ```
-akhileshcab/
-├── index.html                 # Main HTML file
-├── css/                       # CSS styles
-│   └── styles.css             # Main stylesheet
-├── js/                        # JavaScript files
-│   └── script.js              # Main JavaScript file
-├── images/                    # Image assets
-│   ├── car-placeholder.svg    # Placeholder for car image
-│   └── map-placeholder.svg    # Placeholder for map
-└── CNAME                      # Custom domain configuration
+.
+├── index.html          # Main HTML page
+├── css/                # CSS styles
+│   └── styles.css      # Main stylesheet
+├── js/                 # JavaScript files
+│   └── script.js       # Main JavaScript functionality
+├── images/             # Image assets
+│   ├── car-placeholder.svg
+│   └── map-placeholder.svg
+├── static-serve.sh     # Script to run local development server
+├── deploy.sh           # Script to prepare files for deployment
+└── deploy-to-github.sh # Script to deploy to GitHub Pages
+```
+
+## Running Locally
+
+To run the website locally, you can use the included Python HTTP server script:
+
+```bash
+# Make the script executable if needed
+chmod +x static-serve.sh
+
+# Run the local server
+./static-serve.sh
+```
+
+This will start a server at http://localhost:8080 where you can view the website.
+
+## Deployment
+
+This website is designed to be deployed to GitHub Pages as a static site. To deploy:
+
+1. Review the instructions in `GITHUB_PAGES_DEPLOYMENT.md`
+2. Run the deployment script:
+
+```bash
+./deploy-to-github.sh
 ```
 
 ## Features
 
-- Responsive design for mobile, tablet, and desktop
-- Easy booking form that sends emails
-- Service pricing information
-- About section
-- Vehicle information
-- Service area map
-- Contact form
+- Responsive design for mobile and desktop
+- Booking form for cab services
+- Pricing information in Indian Rupee (₹)
+- Location-specific details relevant to Varanasi
+- Interactive elements for user engagement
 
-## How to View Locally
+## Technology
 
-Simply open the `index.html` file in your web browser:
-
-```
-# Windows
-start index.html
-
-# macOS
-open index.html
-
-# Linux
-xdg-open index.html
-```
-
-## Deployment
-
-This site is designed to be deployed to GitHub Pages:
-
-1. Push this repository to GitHub
-2. Go to Settings > Pages
-3. Set the source to the branch containing these files
-4. The site will be published at your GitHub Pages URL
-
-## Custom Domain
-
-To use a custom domain:
-
-1. Ensure your CNAME file contains your domain name
-2. Add the following DNS records at your domain registrar:
-   - A records pointing to GitHub Pages IP addresses
-   - CNAME record for 'www' pointing to your GitHub Pages URL
-
-## Credits
-
-- All content is fictional and created for demonstration purposes
-- SVG placeholders are generated to represent actual images
-
-## License
-
-This project is available for use under the MIT License.
+- HTML5
+- CSS3
+- JavaScript
+- SVG for graphics
