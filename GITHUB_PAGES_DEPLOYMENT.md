@@ -17,19 +17,25 @@ GitHub Pages is a free static site hosting service that takes HTML, CSS, and Jav
 ### Option 1: Using the Deployment Script (Recommended)
 
 1. Make sure you have Git installed and you're logged in to GitHub on your computer
-2. Open a terminal/command prompt
-3. Navigate to the root directory of this project
-4. Run the deployment script with your GitHub repository URL:
+2. Create a new repository on GitHub:
+   - Go to https://github.com/new
+   - Name your repository (e.g., "akhileshcab-website")
+   - Make it public
+   - Click "Create repository"
+3. Open a terminal/command prompt
+4. Navigate to the root directory of this project
+5. Run the deployment script with your GitHub repository URL:
 
 ```bash
 ./deploy-to-github.sh https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
 ```
 
 The script will:
-- Create a temporary directory
-- Copy all the necessary static files from the `simple-site/public` folder
+- Run the deploy.sh script to prepare all files in the dist directory
+- Create a temporary directory for deployment
+- Copy all the necessary static files from the dist folder
 - Initialize a Git repository
-- Push everything to GitHub
+- Push everything to GitHub on the main branch
 - Clean up temporary files
 
 ### Option 2: Manual Deployment
@@ -43,24 +49,26 @@ If you prefer to deploy manually, follow these steps:
    - Click "Create repository"
 
 2. Prepare the static files:
-   - Copy the contents of `simple-site/public` to a temporary folder
-   - Make sure all file paths use relative paths (we've already updated these)
+   - Run the deploy.sh script: `./deploy.sh`
+   - This will create a dist directory with all necessary files
 
 3. Initialize Git and push to GitHub:
    ```bash
-   cd path/to/temporary/folder
+   cd dist
    git init
    git add .
    git commit -m "Initial commit"
    git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
+   git branch -M main
    git push -u origin main
    ```
 
 4. Configure GitHub Pages:
    - Go to your repository on GitHub
    - Click on "Settings"
-   - Scroll down to the "GitHub Pages" section
-   - In the "Source" dropdown, select "main branch"
+   - Navigate to "Pages" in the sidebar
+   - Under "Build and deployment", set Source to "Deploy from a branch"
+   - Select "main" branch and "/ (root)" folder
    - Click "Save"
 
 ## Verifying Deployment
