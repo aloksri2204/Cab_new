@@ -252,9 +252,10 @@
         <p>We cover all of Varanasi and surrounding regions</p>
       </div>
       <div class="map-container">
-        <div id="map">
-          <!-- Map will be loaded here via JavaScript -->
-          <img src="images/varanasi-map.jpg" alt="Varanasi Map" class="static-map" onerror="this.src='images/map-placeholder.svg'">
+        <div id="map" style="height: 400px; width: 100%; border-radius: 8px;">
+          <!-- Google Maps will be loaded here via JavaScript -->
+          <!-- Fallback image if Google Maps fails to load -->
+          <img src="images/varanasi-map.jpg" alt="Varanasi Map" class="static-map" id="map-fallback" style="display: none;" onerror="this.src='images/map-placeholder.svg'">
         </div>
         <div class="areas-list">
           <h3>Areas We Cover:</h3>
@@ -494,6 +495,11 @@
   <!-- Back to Top Button -->
   <div id="back-to-top">↑</div>
 
+  <!-- Google Maps API Script - Replace YOUR_API_KEY with actual API key -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=GOOGLE_MAPS_API_KEY&callback=initMap">
+  </script>
+  
   <script src="js/script.js"></script>
 </body>
 </html>

@@ -196,8 +196,140 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Initialize map (if available) - simplified for this example
-  // In a real application, you would use Google Maps or Leaflet.js
+  // Google Maps initialization function
+  // This function is called when the Google Maps API script has loaded
+  window.initMap = function() {
+    const mapElement = document.getElementById('map');
+    const fallbackImage = document.getElementById('map-fallback');
+    
+    // Only initialize map if the container exists
+    if (mapElement) {
+      try {
+        // Varanasi, India coordinates
+        const varanasi = { lat: 25.3176, lng: 82.9739 };
+        
+        // Create the map centered on Varanasi
+        const map = new google.maps.Map(mapElement, {
+          zoom: 12,
+          center: varanasi,
+          mapTypeControl: true,
+          fullscreenControl: true,
+          streetViewControl: true,
+          mapTypeId: 'roadmap'
+        });
+        
+        // Add a marker for AkhileshCab's location
+        const businessLocation = { lat: 25.3176, lng: 82.9739 }; // Center of Varanasi
+        const mainMarker = new google.maps.Marker({
+          position: businessLocation,
+          map: map,
+          title: 'AkhileshCab',
+          animation: google.maps.Animation.DROP
+        });
+        
+        // Define service area markers
+        const serviceLocations = [
+          { position: { lat: 25.3108, lng: 83.0107 }, title: 'Dashashwamedh Ghat' },
+          { position: { lat: 25.2839, lng: 82.9984 }, title: 'Assi Ghat' },
+          { position: { lat: 25.3151, lng: 83.0105 }, title: 'Manikarnika Ghat' },
+          { position: { lat: 25.2677, lng: 82.9913 }, title: 'Banaras Hindu University' },
+          { position: { lat: 25.3090, lng: 83.0106 }, title: 'Kashi Vishwanath Temple' },
+          { position: { lat: 25.4430, lng: 82.8592 }, title: 'Lal Bahadur Shastri Airport' },
+          { position: { lat: 25.3319, lng: 82.9730 }, title: 'Varanasi Junction Railway Station' },
+          { position: { lat: 25.3791, lng: 83.0322 }, title: 'Sarnath' },
+          { position: { lat: 25.2587, lng: 83.0179 }, title: 'Ramnagar' }
+        ];
+        
+        // Add markers for all service locations
+        serviceLocations.forEach(location => {
+          const marker = new google.maps.Marker({
+            position: location.position,
+            map: map,
+            title: location.title,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 8,
+              fillColor: '#4285F4',
+              fillOpacity: 0.7,
+              strokeWeight: 1,
+              strokeColor: '#FFFFFF'
+            }
+          });
+          
+          // Add info window to each marker
+          const infowindow = new google.maps.InfoWindow({
+            content: `<div style="font-weight:bold;">${location.title}</div><div>AkhileshCab Service Area</div>`
+          });
+          
+          marker.addListener('click', () => {
+            infowindow.open(map, marker);
+          });
+        });
+        
+        // Add info window to main marker
+        const mainInfoWindow = new google.maps.InfoWindow({
+          content: `
+            <div style="padding: 8px; max-width: 200px;">
+              <h3 style="margin-top: 0; color: #3366cc;">AkhileshCab</h3>
+              <p>Varanasi's Premier Cab Service</p>
+              <p>Call: +91 94561 78901</p>
+              <a href="#booking" 
+                style="display: inline-block; background: #3366cc; color: white; padding: 5px 10px; 
+                text-decoration: none; border-radius: 4px; margin-top: 5px;">
+                Book Now
+              </a>
+            </div>
+          `
+        });
+        
+        mainMarker.addListener('click', () => {
+          mainInfoWindow.open(map, mainMarker);
+        });
+        
+        // Open the main info window by default
+        mainInfoWindow.open(map, mainMarker);
+        
+        // Draw a circle to show the approximate service area
+        const cityCircle = new google.maps.Circle({
+          strokeColor: '#FF6B6B',
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          fillColor: '#FF6B6B',
+          fillOpacity: 0.1,
+          map: map,
+          center: varanasi,
+          radius: 15000  // 15km radius - approximate service area
+        });
+        
+        console.log('Google Maps initialized successfully');
+        
+      } catch (error) {
+        console.error('Error initializing Google Maps:', error);
+        handleMapError();
+      }
+    }
+  };
+  
+  // Function to handle map errors and show fallback image
+  function handleMapError() {
+    const mapElement = document.getElementById('map');
+    const fallbackImage = document.getElementById('map-fallback');
+    
+    if (mapElement && fallbackImage) {
+      // Show the fallback image
+      fallbackImage.style.display = 'block';
+      mapElement.style.height = 'auto';
+      console.log('Fallback map image displayed');
+    }
+  }
+  
+  // Handle case where Google Maps fails to load
+  window.addEventListener('error', function(e) {
+    if (e.target.src && e.target.src.includes('maps.googleapis.com')) {
+      console.error('Google Maps failed to load');
+      handleMapError();
+    }
+  }, true);
   if (document.getElementById('map')) {
     console.log('Map container exists - would initialize map here');
   }
