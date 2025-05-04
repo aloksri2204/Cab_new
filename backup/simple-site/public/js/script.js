@@ -1,0 +1,225 @@
+document.addEventListener('DOMContentLoaded', function() {
+  // Mobile menu toggle
+  const hamburger = document.querySelector('.hamburger');
+  const navMenu = document.querySelector('.nav-menu');
+
+  hamburger.addEventListener('click', function() {
+    hamburger.classList.toggle('active');
+    navMenu.classList.toggle('active');
+  });
+
+  // Close menu when link is clicked
+  document.querySelectorAll('.nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      navMenu.classList.remove('active');
+    });
+  });
+
+  // Sticky header on scroll
+  const header = document.querySelector('header');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // Back to top button
+  const backToTopButton = document.getElementById('back-to-top');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 300) {
+      backToTopButton.classList.add('show');
+    } else {
+      backToTopButton.classList.remove('show');
+    }
+  });
+
+  backToTopButton.addEventListener('click', function() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+
+  // Form submission handling for GitHub Pages (static site)
+  const bookingForm = document.getElementById('booking-form');
+  const contactForm = document.getElementById('contact-form');
+  const successModal = document.getElementById('success-message');
+  const closeModalBtn = document.querySelector('.close');
+
+  // Helper function to serialize form data
+  function serializeForm(form) {
+    const formData = new FormData(form);
+    const serialized = {};
+    
+    for (let [key, value] of formData.entries()) {
+      serialized[key] = value;
+    }
+    
+    return serialized;
+  }
+
+  // Function to format form data for email
+  function formatFormDataForEmail(formData, formType) {
+    let subject = '';
+    let body = '';
+    
+    if (formType === 'booking') {
+      subject = 'New Booking Request from ' + formData.name;
+      body = 'Booking Details:%0D%0A';
+      body += '-----------------%0D%0A';
+      body += 'Name: ' + formData.name + '%0D%0A';
+      body += 'Email: ' + formData.email + '%0D%0A';
+      body += 'Phone: ' + formData.phone + '%0D%0A';
+      body += 'Date: ' + formData.date + '%0D%0A';
+      body += 'Time: ' + formData.time + '%0D%0A';
+      body += 'Service Type: ' + formData['service-type'] + '%0D%0A';
+      body += 'Pickup Location: ' + formData.pickup + '%0D%0A';
+      body += 'Destination: ' + formData.dropoff + '%0D%0A';
+      body += 'Passengers: ' + formData.passengers + '%0D%0A';
+      body += 'Notes: ' + (formData.notes || 'None') + '%0D%0A';
+    } else if (formType === 'contact') {
+      subject = 'New Contact Message from ' + formData.name;
+      body = 'Contact Message:%0D%0A';
+      body += '---------------%0D%0A';
+      body += 'Name: ' + formData.name + '%0D%0A';
+      body += 'Email: ' + formData.email + '%0D%0A';
+      body += 'Phone: ' + (formData.phone || 'Not provided') + '%0D%0A';
+      body += 'Message: ' + formData.message + '%0D%0A';
+    }
+    
+    return { subject, body };
+  }
+
+  // Handle the booking form submission
+  if (bookingForm) {
+    bookingForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = serializeForm(bookingForm);
+      console.log('Booking form submitted', formData);
+      
+      // Store data in localStorage for demo purposes
+      localStorage.setItem('lastBooking', JSON.stringify(formData));
+      
+      // Option 1: Open email client (fallback for static site)
+      const { subject, body } = formatFormDataForEmail(formData, 'booking');
+      const mailtoLink = `mailto:booking@akhileshcab.com?subject=${subject}&body=${body}`;
+      
+      // Show confirmation before opening email client
+      if (confirm('Since this is a static website hosted on GitHub Pages, we will open your email client to send this booking request. Click OK to proceed.')) {
+        window.location.href = mailtoLink;
+      }
+      
+      // Display success message
+      successModal.style.display = 'block';
+      
+      // Clear form
+      bookingForm.reset();
+    });
+  }
+
+  // Handle the contact form submission
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = serializeForm(contactForm);
+      console.log('Contact form submitted', formData);
+      
+      // Store data in localStorage for demo purposes
+      localStorage.setItem('lastContact', JSON.stringify(formData));
+      
+      // Option 1: Open email client (fallback for static site)
+      const { subject, body } = formatFormDataForEmail(formData, 'contact');
+      const mailtoLink = `mailto:contact@akhileshcab.com?subject=${subject}&body=${body}`;
+      
+      // Show confirmation before opening email client
+      if (confirm('Since this is a static website hosted on GitHub Pages, we will open your email client to send this message. Click OK to proceed.')) {
+        window.location.href = mailtoLink;
+      }
+      
+      // Display success message
+      successModal.style.display = 'block';
+      
+      // Clear form
+      contactForm.reset();
+    });
+  }
+
+  // Close modal
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', function() {
+      successModal.style.display = 'none';
+    });
+  }
+
+  // Close modal when clicking outside
+  window.addEventListener('click', function(e) {
+    if (e.target === successModal) {
+      successModal.style.display = 'none';
+    }
+  });
+
+  // Update service price based on service type selection
+  const serviceTypeSelect = document.getElementById('service-type');
+  if (serviceTypeSelect) {
+    serviceTypeSelect.addEventListener('change', function() {
+      // In a real scenario, you would update pricing dynamically
+      console.log('Service type changed to: ' + this.value);
+    });
+  }
+
+  // Create placeholder images if real ones fail to load
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', function() {
+      if (!this.src.includes('placeholder')) {
+        console.log('Image failed to load: ' + this.src);
+        this.src = '/images/placeholder.jpg';
+      }
+    });
+  });
+
+  // Implement a simple date validation
+  const dateInput = document.getElementById('date');
+  if (dateInput) {
+    dateInput.addEventListener('change', function() {
+      const selectedDate = new Date(this.value);
+      const today = new Date();
+      
+      if (selectedDate < today) {
+        alert('Please select a future date');
+        this.value = '';
+      }
+    });
+  }
+
+  // Initialize map (if available) - simplified for this example
+  // In a real application, you would use Google Maps or Leaflet.js
+  if (document.getElementById('map')) {
+    console.log('Map container exists - would initialize map here');
+  }
+
+  // Smooth scrolling for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        // Calculate header height with a small buffer
+        const headerHeight = document.querySelector('header').offsetHeight + 20;
+        
+        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = targetPosition - headerHeight;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+});

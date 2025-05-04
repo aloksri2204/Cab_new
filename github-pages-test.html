@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Pages Config Verification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      border-bottom: 2px solid #3366cc;
+      padding-bottom: 10px;
+      color: #3366cc;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      background-color: #f9f9f9;
+    }
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+    .warning {
+      color: orange;
+      font-weight: bold;
+    }
+    code {
+      background-color: #eee;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+    .action-btn {
+      display: inline-block;
+      background-color: #3366cc;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>GitHub Pages Configuration Verification</h1>
+  
+  <div class="card">
+    <h2>Config.js Status</h2>
+    <div id="config-status">Checking config.js status...</div>
+  </div>
+  
+  <div class="card">
+    <h2>Google Maps API Key Status</h2>
+    <div id="api-key-status">Checking API key status...</div>
+  </div>
+  
+  <div class="card">
+    <h2>Connection Test</h2>
+    <div id="connection-test">Testing connection to Google Maps API...</div>
+  </div>
+  
+  <div class="card">
+    <h2>Next Steps</h2>
+    <ul id="next-steps">
+      <li>Waiting for test results...</li>
+    </ul>
+    <a href="index.html" class="action-btn">Return to Website</a>
+  </div>
+  
+  <script>
+    // Define a function to check and update config status
+    function checkConfigStatus() {
+      const configStatusElement = document.getElementById('config-status');
+      
+      if (typeof CONFIG !== 'undefined') {
+        configStatusElement.innerHTML = '<span class="success">✓ CONFIG object found</span>';
+        configStatusElement.innerHTML += `<p>Website Version: ${CONFIG.WEBSITE_VERSION || 'Not set'}</p>`;
+        return true;
+      } else {
+        configStatusElement.innerHTML = '<span class="error">✗ CONFIG object not found</span>';
+        configStatusElement.innerHTML += '<p>The config.js file may not be loading correctly.</p>';
+        return false;
+      }
+    }
+    
+    // Define a function to check the API key status
+    function checkApiKeyStatus() {
+      const apiKeyStatusElement = document.getElementById('api-key-status');
+      
+      if (typeof CONFIG === 'undefined') {
+        apiKeyStatusElement.innerHTML = '<span class="error">✗ Cannot check API key - CONFIG object not found</span>';
+        return false;
+      }
+      
+      if (!CONFIG.GOOGLE_MAPS_API_KEY) {
+        apiKeyStatusElement.innerHTML = '<span class="error">✗ API key is missing</span>';
+        apiKeyStatusElement.innerHTML += '<p>No API key was found in the CONFIG object.</p>';
+        return false;
+      }
+      
+      if (CONFIG.GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY_HERE') {
+        apiKeyStatusElement.innerHTML = '<span class="warning">⚠ API key is a placeholder</span>';
+        apiKeyStatusElement.innerHTML += '<p>The API key is set to the default placeholder value.</p>';
+        return false;
+      }
+      
+      // Check if the API key looks valid (has reasonable length and format)
+      if (CONFIG.GOOGLE_MAPS_API_KEY.length < 20) {
+        apiKeyStatusElement.innerHTML = '<span class="warning">⚠ API key may be invalid</span>';
+        apiKeyStatusElement.innerHTML += '<p>The API key is too short to be valid.</p>';
+        return false;
+      }
+      
+      apiKeyStatusElement.innerHTML = '<span class="success">✓ API key found</span>';
+      apiKeyStatusElement.innerHTML += `<p>Length: ${CONFIG.GOOGLE_MAPS_API_KEY.length} characters</p>`;
+      return true;
+    }
+    
+    // Define a function to test connection to Google Maps API
+    function testGoogleMapsConnection() {
+      const connectionTestElement = document.getElementById('connection-test');
+      
+      if (typeof CONFIG === 'undefined' || !CONFIG.GOOGLE_MAPS_API_KEY) {
+        connectionTestElement.innerHTML = '<span class="error">✗ Cannot test connection - API key not available</span>';
+        return;
+      }
+      
+      connectionTestElement.innerHTML = '<span class="warning">⚠ Testing connection...</span>';
+      
+      // Create a script element to load Google Maps API
+      const script = document.createElement('script');
+      
+      // Set up success and error handlers
+      window.testMapCallback = function() {
+        connectionTestElement.innerHTML = '<span class="success">✓ Successfully connected to Google Maps API</span>';
+        updateNextSteps(true);
+      };
+      
+      script.onerror = function() {
+        connectionTestElement.innerHTML = '<span class="error">✗ Failed to connect to Google Maps API</span>';
+        connectionTestElement.innerHTML += '<p>This could be due to an invalid API key or network issues.</p>';
+        updateNextSteps(false);
+      };
+      
+      // Set the script source with the API key
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.GOOGLE_MAPS_API_KEY}&callback=testMapCallback`;
+      
+      // Add the script to the document
+      document.body.appendChild(script);
+    }
+    
+    // Define a function to update the next steps
+    function updateNextSteps(success) {
+      const nextStepsElement = document.getElementById('next-steps');
+      
+      if (success) {
+        nextStepsElement.innerHTML = `
+          <li class="success">✓ All tests passed!</li>
+          <li>You can now return to the main website.</li>
+          <li>Google Maps should be working correctly.</li>
+        `;
+      } else {
+        nextStepsElement.innerHTML = `
+          <li class="error">✗ Some tests failed.</li>
+          <li>Check that your API key is correctly set in GitHub Secrets.</li>
+          <li>Verify the GitHub Actions workflow is correctly creating config.js.</li>
+          <li>Make sure the API key has proper permissions and restrictions.</li>
+        `;
+      }
+    }
+    
+    // Run the tests when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      // First check if config is loaded
+      const configLoaded = checkConfigStatus();
+      
+      // Then check the API key status
+      const apiKeyValid = checkApiKeyStatus();
+      
+      // Finally test connection to Google Maps API
+      if (configLoaded && apiKeyValid) {
+        testGoogleMapsConnection();
+      } else {
+        updateNextSteps(false);
+      }
+    });
+  </script>
+  
+  <!-- Load configuration file -->
+  <script src="js/config.js"></script>
+</body>
+</html>

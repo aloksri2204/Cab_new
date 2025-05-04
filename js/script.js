@@ -5,10 +5,21 @@ if (typeof CONFIG === 'undefined') {
     GOOGLE_MAPS_API_KEY: "",
     WEBSITE_VERSION: "1.0.0"
   };
+} else {
+  console.log('CONFIG loaded successfully with version:', CONFIG.WEBSITE_VERSION);
+  console.log('Google Maps API Key status:', CONFIG.GOOGLE_MAPS_API_KEY ? 'Provided (length: ' + CONFIG.GOOGLE_MAPS_API_KEY.length + ')' : 'Missing');
 }
 
 // Function to dynamically load the Google Maps API
 function loadGoogleMapsScript() {
+  // Debug - log the key length for troubleshooting (safe, doesn't reveal the actual key)
+  console.log('API Key check - key exists:', !!CONFIG.GOOGLE_MAPS_API_KEY);
+  if (CONFIG.GOOGLE_MAPS_API_KEY) {
+    console.log('API Key check - key length:', CONFIG.GOOGLE_MAPS_API_KEY.length);
+    console.log('API Key check - first 4 chars:', CONFIG.GOOGLE_MAPS_API_KEY.substring(0, 4));
+    console.log('API Key check - has whitespace:', /\s/.test(CONFIG.GOOGLE_MAPS_API_KEY));
+  }
+  
   // Only load if the API key is provided
   if (CONFIG.GOOGLE_MAPS_API_KEY && CONFIG.GOOGLE_MAPS_API_KEY.trim() !== "" && 
       CONFIG.GOOGLE_MAPS_API_KEY !== "YOUR_GOOGLE_MAPS_API_KEY_HERE") {
@@ -19,15 +30,25 @@ function loadGoogleMapsScript() {
     script.async = true;
     script.defer = true;
     
+    // Add timestamp to URL to prevent caching issues
+    script.src += `&v=${new Date().getTime()}`;
+    
     // Handle loading errors
-    script.onerror = function() {
-      console.error('Failed to load Google Maps API. Check your API key.');
+    script.onerror = function(error) {
+      console.error('Failed to load Google Maps API. Check your API key.', error);
+      console.log('Attempted to load from URL:', script.src.replace(CONFIG.GOOGLE_MAPS_API_KEY, 'API_KEY_HIDDEN'));
       handleMapError();
     };
     
+    // Add load event for debugging
+    script.onload = function() {
+      console.log('Google Maps API script loaded successfully');
+    };
+    
     document.body.appendChild(script);
+    console.log('Google Maps API script added to page');
   } else {
-    console.warn('Google Maps API key not provided in config.js');
+    console.warn('Google Maps API key not provided in config.js or invalid');
     // Show the fallback map image if no API key
     handleMapError();
   }

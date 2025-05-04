@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Maps API Test</title>
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Google Maps API Test</h1>
+  <p>This page tests if the Google Maps API key is working correctly.</p>
+  
+  <div id="map"></div>
+  <div id="status"></div>
+
+  <script>
+    // Use the actual API key for testing (will be replaced in the GitHub build)
+    const API_KEY = process.env.GOOGLE_MAPS_API_KEY || "";
+
+    function updateStatus(message, isError = false) {
+      const statusDiv = document.getElementById('status');
+      statusDiv.innerHTML = message;
+      statusDiv.style.color = isError ? 'red' : 'green';
+      statusDiv.style.marginTop = '10px';
+      statusDiv.style.padding = '10px';
+      statusDiv.style.border = `1px solid ${isError ? 'red' : 'green'}`;
+      statusDiv.style.borderRadius = '4px';
+    }
+
+    function initMap() {
+      try {
+        // Varanasi coordinates
+        const varanasi = { lat: 25.3176, lng: 82.9739 };
+        
+        // Create the map
+        const map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: varanasi
+        });
+        
+        // Add a marker
+        const marker = new google.maps.Marker({
+          position: varanasi,
+          map: map,
+          title: 'Varanasi, India'
+        });
+        
+        updateStatus('✓ Google Maps loaded successfully!');
+      } catch (error) {
+        updateStatus(`× Error initializing map: ${error.message}`, true);
+        console.error('Map initialization error:', error);
+      }
+    }
+
+    function loadGoogleMapsScript() {
+      try {
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        
+        script.onerror = function() {
+          updateStatus('× Failed to load Google Maps API. Check your API key.', true);
+        };
+        
+        document.body.appendChild(script);
+      } catch (error) {
+        updateStatus(`× Error loading script: ${error.message}`, true);
+        console.error('Script loading error:', error);
+      }
+    }
+
+    // Check if we have an API key
+    if (API_KEY && API_KEY !== "<?php echo getenv('GOOGLE_MAPS_API_KEY'); ?>") {
+      loadGoogleMapsScript();
+    } else {
+      updateStatus('× API key not found or empty', true);
+    }
+  </script>
+</body>
+</html>

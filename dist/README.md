@@ -64,7 +64,11 @@ This website is designed to be deployed to GitHub Pages as a static site. To dep
 
 ## Setting Up Google Maps API
 
-To make the interactive map work on your website without hardcoding your API key:
+There are two ways to set up Google Maps for this website without hardcoding your API key:
+
+### Option 1: Using GitHub Actions for Deployment (Recommended)
+
+This approach uses GitHub's secure secrets to store your API key and inject it during the build process:
 
 1. **Get a Google Maps API Key**:
    - Go to the [Google Cloud Console](https://console.cloud.google.com/)
@@ -74,6 +78,39 @@ To make the interactive map work on your website without hardcoding your API key
    - Go to "APIs & Services" > "Credentials"
    - Click "Create Credentials" > "API Key"
    - Copy your new API key
+
+2. **Set Up GitHub Repository**:
+   - Push your code to GitHub
+   - Go to your repository on GitHub
+   - Navigate to "Settings" > "Secrets and variables" > "Actions"
+   - Click "New repository secret"
+   - Name: `GOOGLE_MAPS_API_KEY`
+   - Value: Your actual Google Maps API key
+   - Click "Add secret"
+
+3. **Enable GitHub Pages**:
+   - In your repository settings, go to "Pages"
+   - Under "Build and deployment", select "GitHub Actions" as the source
+
+4. **Deploy Your Website**:
+   - The included GitHub Actions workflow in `.github/workflows/deploy.yml` will:
+     - Build your website
+     - Securely inject your API key
+     - Deploy to GitHub Pages
+   - You can manually trigger this workflow from the "Actions" tab on GitHub
+
+5. **Secure Your API Key** (Important for Production):
+   - Go back to the Google Cloud Console
+   - In the Credentials section, find your API key and click "Edit"
+   - Under "Application restrictions," select "HTTP referrers"
+   - Add your domain(s) where the website will be hosted (e.g., `*.github.io/*`)
+   - Click "Save"
+
+### Option 2: Local Development with Config File
+
+For local development or if you're not using GitHub Pages:
+
+1. **Get a Google Maps API Key** (as described above)
 
 2. **Add the API Key to the Configuration File**:
    - Edit the file `js/config.js`
@@ -87,14 +124,7 @@ To make the interactive map work on your website without hardcoding your API key
    ```
    - Save the file (this file is gitignored and won't be committed to the repository)
 
-3. **Secure Your API Key** (Important for Production):
-   - Go back to the Google Cloud Console
-   - In the Credentials section, find your API key and click "Edit"
-   - Under "Application restrictions," select "HTTP referrers"
-   - Add your domain(s) where the website will be hosted (e.g., `*.yourdomain.com/*`)
-   - Click "Save"
-
-4. **For New Installations**:
+3. **For New Installations**:
    - The repository includes `js/config.example.js` as a template
    - Copy it to create your own configuration:
    ```bash
@@ -102,4 +132,4 @@ To make the interactive map work on your website without hardcoding your API key
    ```
    - Then edit `js/config.js` with your API key
 
-With this approach, your API key is kept separate from the main codebase and won't be committed to version control. The website will automatically load Google Maps with your key from the configuration file.
+With either approach, your API key is kept secure and not exposed in your public repository. The website will automatically load Google Maps with your key from either the injected configuration (GitHub Actions) or your local config file.

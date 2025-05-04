@@ -39,9 +39,10 @@ jobs:
           mkdir -p build/js
           cp js/script.js build/js/
           
-          # Copy config.example.js as reference
-          if [ -f "js/config.example.js" ]; then
-            cp js/config.example.js build/js/
+          # Copy test diagnostic files
+          if [ -f "github-pages-test.html" ]; then
+            cp github-pages-test.html build/
+            echo "✓ Copied GitHub Pages test file"
           fi
           
           # Copy README and documentation
@@ -49,14 +50,15 @@ jobs:
             cp README.md build/
           fi
       
-      - name: Create config.js with secrets
+      - name: Create config.js with Google Maps API key from secrets
         run: |
           echo "// Configuration file for AkhileshCab website" > build/js/config.js
           echo "// Generated during deployment - $(date)" >> build/js/config.js
           echo "const CONFIG = {" >> build/js/config.js
           echo "  GOOGLE_MAPS_API_KEY: \"${{ secrets.GOOGLE_MAPS_API_KEY }}\"," >> build/js/config.js
-          echo "  WEBSITE_VERSION: \"1.0.0\"" >> build/js/config.js
+          echo "  WEBSITE_VERSION: \"1.0.0-$(date +%s)\"" >> build/js/config.js
           echo "};" >> build/js/config.js
+          echo "✓ Successfully created config.js with Google Maps API key from GitHub secrets"
       
       - name: Copy CNAME if exists
         run: |
@@ -65,7 +67,7 @@ jobs:
           fi
           
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v1
         with:
           path: ./build
 
