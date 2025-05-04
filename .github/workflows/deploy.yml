@@ -54,7 +54,8 @@ jobs:
         run: |
           echo "// Configuration file for AkhileshCab website" > build/js/config.js
           echo "// Generated during deployment - $(date)" >> build/js/config.js
-          echo "const CONFIG = {" >> build/js/config.js
+          echo "// Define CONFIG as a property of the window object to prevent redeclaration issues" >> build/js/config.js
+          echo "window.CONFIG = {" >> build/js/config.js
           echo "  GOOGLE_MAPS_API_KEY: \"${{ secrets.GOOGLE_MAPS_API_KEY }}\"," >> build/js/config.js
           echo "  WEBSITE_VERSION: \"1.0.0-$(date +%s)\"" >> build/js/config.js
           echo "};" >> build/js/config.js

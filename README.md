@@ -119,7 +119,7 @@ For local development or if you're not using GitHub Pages:
    const CONFIG = {
      // Replace this with your actual Google Maps API key
      GOOGLE_MAPS_API_KEY: "YOUR_ACTUAL_API_KEY",
-     WEBSITE_VERSION: "1.0.0"
+     WEBSITE_VERSION: "3.60"
    };
    ```
    - Save the file (this file is gitignored and won't be committed to the repository)

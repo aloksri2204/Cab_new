@@ -1,8 +1,0 @@
-<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
-  <rect x="0" y="0" width="800" height="400" fill="#e8f4f8" />
-  <text x="400" y="180" font-family="Arial" font-size="30" text-anchor="middle" fill="#555">Varanasi Map</text>
-  <text x="400" y="220" font-family="Arial" font-size="20" text-anchor="middle" fill="#777">Service Area Coverage</text>
-  <circle cx="400" cy="200" r="100" fill="none" stroke="#3498db" stroke-width="2" />
-  <circle cx="400" cy="200" r="50" fill="none" stroke="#3498db" stroke-width="2" />
-  <text x="400" y="320" font-family="Arial" font-size="16" text-anchor="middle" fill="#555">We serve all of Varanasi and surrounding areas</text>
-</svg>

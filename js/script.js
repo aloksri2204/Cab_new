@@ -1,9 +1,9 @@
-// Check if CONFIG is defined, otherwise create an empty object
+removeEventListener// Check if CONFIG is defined, otherwise create an empty object
 if (typeof CONFIG === 'undefined') {
   console.warn('CONFIG object not found. Using default empty configuration.');
-  var CONFIG = {
+  window.CONFIG = {
     GOOGLE_MAPS_API_KEY: "",
-    WEBSITE_VERSION: "1.0.0"
+    WEBSITE_VERSION: "3.60"
   };
 } else {
   console.log('CONFIG loaded successfully with version:', CONFIG.WEBSITE_VERSION);

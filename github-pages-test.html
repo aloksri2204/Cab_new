@@ -84,9 +84,9 @@
     function checkConfigStatus() {
       const configStatusElement = document.getElementById('config-status');
       
-      if (typeof CONFIG !== 'undefined') {
+      if (typeof window.CONFIG !== 'undefined') {
         configStatusElement.innerHTML = '<span class="success">✓ CONFIG object found</span>';
-        configStatusElement.innerHTML += `<p>Website Version: ${CONFIG.WEBSITE_VERSION || 'Not set'}</p>`;
+        configStatusElement.innerHTML += `<p>Website Version: ${window.CONFIG.WEBSITE_VERSION || 'Not set'}</p>`;
         return true;
       } else {
         configStatusElement.innerHTML = '<span class="error">✗ CONFIG object not found</span>';
@@ -99,12 +99,12 @@
     function checkApiKeyStatus() {
       const apiKeyStatusElement = document.getElementById('api-key-status');
       
-      if (typeof CONFIG === 'undefined') {
+      if (typeof window.CONFIG === 'undefined') {
         apiKeyStatusElement.innerHTML = '<span class="error">✗ Cannot check API key - CONFIG object not found</span>';
         return false;
       }
       
-      if (!CONFIG.GOOGLE_MAPS_API_KEY) {
+      if (!window.CONFIG.GOOGLE_MAPS_API_KEY) {
         apiKeyStatusElement.innerHTML = '<span class="error">✗ API key is missing</span>';
         apiKeyStatusElement.innerHTML += '<p>No API key was found in the CONFIG object.</p>';
         return false;
@@ -132,7 +132,7 @@
     function testGoogleMapsConnection() {
       const connectionTestElement = document.getElementById('connection-test');
       
-      if (typeof CONFIG === 'undefined' || !CONFIG.GOOGLE_MAPS_API_KEY) {
+      if (typeof window.CONFIG === 'undefined' || !CONFIG.GOOGLE_MAPS_API_KEY) {
         connectionTestElement.innerHTML = '<span class="error">✗ Cannot test connection - API key not available</span>';
         return;
       }
@@ -155,7 +155,7 @@
       };
       
       // Set the script source with the API key
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.GOOGLE_MAPS_API_KEY}&callback=testMapCallback`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${window.CONFIG.GOOGLE_MAPS_API_KEY}&callback=testMapCallback`;
       
       // Add the script to the document
       document.body.appendChild(script);
