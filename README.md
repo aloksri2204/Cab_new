@@ -64,7 +64,7 @@ This website is designed to be deployed to GitHub Pages as a static site. To dep
 
 ## Setting Up Google Maps API
 
-To make the interactive map work on your website:
+To make the interactive map work on your website without hardcoding your API key:
 
 1. **Get a Google Maps API Key**:
    - Go to the [Google Cloud Console](https://console.cloud.google.com/)
@@ -75,15 +75,17 @@ To make the interactive map work on your website:
    - Click "Create Credentials" > "API Key"
    - Copy your new API key
 
-2. **Add the API Key to the Website**:
-   - Open `index.html` in a text editor
-   - Find the Google Maps script tag near the bottom of the file
-   - Replace `GOOGLE_MAPS_API_KEY` with your actual API key:
-   ```html
-   <script async defer
-     src="https://maps.googleapis.com/maps/api/js?key=YOUR_ACTUAL_API_KEY&callback=initMap">
-   </script>
+2. **Add the API Key to the Configuration File**:
+   - Edit the file `js/config.js`
+   - Add your API key to the configuration:
+   ```javascript
+   const CONFIG = {
+     // Replace this with your actual Google Maps API key
+     GOOGLE_MAPS_API_KEY: "YOUR_ACTUAL_API_KEY",
+     WEBSITE_VERSION: "1.0.0"
+   };
    ```
+   - Save the file (this file is gitignored and won't be committed to the repository)
 
 3. **Secure Your API Key** (Important for Production):
    - Go back to the Google Cloud Console
@@ -92,4 +94,12 @@ To make the interactive map work on your website:
    - Add your domain(s) where the website will be hosted (e.g., `*.yourdomain.com/*`)
    - Click "Save"
 
-This will enable the interactive map on the Service Area section of the website, showing Varanasi and major landmarks.
+4. **For New Installations**:
+   - The repository includes `js/config.example.js` as a template
+   - Copy it to create your own configuration:
+   ```bash
+   cp js/config.example.js js/config.js
+   ```
+   - Then edit `js/config.js` with your API key
+
+With this approach, your API key is kept separate from the main codebase and won't be committed to version control. The website will automatically load Google Maps with your key from the configuration file.

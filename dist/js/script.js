@@ -1,4 +1,41 @@
+// Check if CONFIG is defined, otherwise create an empty object
+if (typeof CONFIG === 'undefined') {
+  console.warn('CONFIG object not found. Using default empty configuration.');
+  var CONFIG = {
+    GOOGLE_MAPS_API_KEY: "",
+    WEBSITE_VERSION: "1.0.0"
+  };
+}
+
+// Function to dynamically load the Google Maps API
+function loadGoogleMapsScript() {
+  // Only load if the API key is provided
+  if (CONFIG.GOOGLE_MAPS_API_KEY && CONFIG.GOOGLE_MAPS_API_KEY.trim() !== "" && 
+      CONFIG.GOOGLE_MAPS_API_KEY !== "YOUR_GOOGLE_MAPS_API_KEY_HERE") {
+    
+    console.log('Loading Google Maps API...');
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${CONFIG.GOOGLE_MAPS_API_KEY}&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    
+    // Handle loading errors
+    script.onerror = function() {
+      console.error('Failed to load Google Maps API. Check your API key.');
+      handleMapError();
+    };
+    
+    document.body.appendChild(script);
+  } else {
+    console.warn('Google Maps API key not provided in config.js');
+    // Show the fallback map image if no API key
+    handleMapError();
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+  // Load Google Maps after the page is ready
+  loadGoogleMapsScript();
   // Mobile menu toggle
   const hamburger = document.querySelector('.hamburger');
   const navMenu = document.querySelector('.nav-menu');

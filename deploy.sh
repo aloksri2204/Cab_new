@@ -15,8 +15,24 @@ mkdir -p dist
 echo "Copying website files..."
 cp index.html dist/
 cp -r css dist/
-cp -r js dist/
 cp -r images dist/
+
+# Create js directory and copy files selectively
+mkdir -p dist/js
+cp js/script.js dist/js/
+cp js/config.example.js dist/js/
+
+# For development/testing only: If config.js exists, copy it too
+# but in production, users should create their own from the example
+if [ -f "js/config.js" ]; then
+  echo "Note: Including config.js file in dist (contains API keys)"
+  cp js/config.js dist/js/
+else
+  echo "Warning: No config.js file found. Creating an empty one in dist..."
+  cp js/config.example.js dist/js/config.js
+  # Clear the API key in the copied file
+  sed -i 's/YOUR_GOOGLE_MAPS_API_KEY_HERE/""/g' dist/js/config.js
+fi
 
 # Copy any additional files needed for deployment
 if [ -f "CNAME" ]; then
@@ -32,5 +48,5 @@ fi
 echo "Deployment files copied to dist directory successfully!"
 echo "Your website is now ready to be served from the dist directory."
 echo ""
-echo "IMPORTANT: Before deploying to a live server, remember to replace"
-echo "GOOGLE_MAPS_API_KEY in index.html with your actual Google Maps API key."
+echo "IMPORTANT: Before deploying to a live server, make sure to edit"
+echo "js/config.js with your actual Google Maps API key."
